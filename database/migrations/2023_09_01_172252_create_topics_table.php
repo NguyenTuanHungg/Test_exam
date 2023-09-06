@@ -17,6 +17,7 @@ class CreateTopicsTable extends Migration
             $table->id();
             $table->string('name');
             $table->time('time');
+            $table->integer('score')->default(0);
             $table->timestamps();
         });
     }

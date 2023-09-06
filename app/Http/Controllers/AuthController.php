@@ -33,10 +33,10 @@ class AuthController extends Controller
         }
     }
 
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('home');
+            return redirect()->route('admin');
         }
         return redirect('register')->withErrors('error');
     }

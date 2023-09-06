@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Topic extends Model
+class UserExam extends Model
 {
     use HasFactory;
-
-    protected $table = 'topics';
+    protected $table = 'user_exams';
     protected $fillable = [
-        'name',
-        'time',
-        'score'
+        'user_id', 'topic_id', 'score'
     ];
 
-    public function questions()
+    public function topic()
     {
-        return $this->hasMany(Question::class);
+        return $this->belongsTo(Topic::class, 'topic_id', 'id');
     }
 }

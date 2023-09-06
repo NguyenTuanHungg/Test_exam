@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -9,6 +10,7 @@ class HomeController extends Controller
     //
     public function index()
     {
-        return view('user.home');
+        $exams = Topic::paginate(10);
+        return view('user.home', compact('exams'));
     }
 }
