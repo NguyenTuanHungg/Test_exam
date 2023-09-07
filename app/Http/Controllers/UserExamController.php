@@ -39,11 +39,13 @@ class UserExamController extends Controller
                 'topic_id' => $topic->id,
             ]);
             $score = $this->calculateScore($userExam, $request->input('answers'));
+
             $userExam->score = $score;
 
             $userExam->save();
 
-            return view('user.result', compact('userExam', 'score'));
+
+            return redirect()->route('result', ['id' => $userExam->id]);
         }
     }
 
@@ -54,13 +56,23 @@ class UserExamController extends Controller
         $score = 0;
 
         foreach ($questions as $question) {
-            $correctAnswers = $question->answers->where('true', 1)->pluck('id')->toArray();
-            $userAnswers = $answers[$question->id] ?? [];
+            if ($question->answers->count() === 0) {
+                continue;
+            }
 
-            if (
-                count($correctAnswers) === count($userAnswers) &&
-                count(array_intersect($correctAnswers, $userAnswers)) === count($correctAnswers)
-            ) {
+            $correctAnswerFound = false;
+
+            foreach ($question->answers as $answer) {
+                if ($answer->true === 1) {
+                    // Nếu tìm thấy đáp án đúng, kiểm tra xem người dùng đã trả lời đúng không
+                    if (isset($answers[$question->id]) && $answers[$question->id] == $answer->id) {
+                        $correctAnswerFound = true;
+                        break; // Nếu trả lời đúng, thoát khỏi vòng lặp
+                    }
+                }
+            }
+
+            if ($correctAnswerFound) {
                 $score += 1;
             }
         }

@@ -39,5 +39,5 @@ Route::group(['middleware' => 'auth'], function () {
 });
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('exam/{id}', [UserExamController::class, 'startExam'])->name('exam');
-Route::post('submit', [UserExamController::class, 'submitExam'])->name('submit');
+Route::post('submit/{id}', [UserExamController::class, 'submitExam'])->name('submit');
 Route::get('result/{id}', [UserExamController::class, 'showResult'])->name('result');

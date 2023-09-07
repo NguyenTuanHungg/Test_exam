@@ -16,6 +16,8 @@ class TopicController extends Controller
         $topics = Topic::paginate(6);
         return view('admin.dashboard', compact('topics'));
     }
+
+
     public function add()
     {
         return view('admin.add');
