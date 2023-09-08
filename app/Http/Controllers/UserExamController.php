@@ -14,6 +14,14 @@ class UserExamController extends Controller
     {
         if (Auth::check()) {
             $exam = Topic::findOrFail($id);
+
+            $exam->load('questions');
+            $exam->questions = $exam->questions->shuffle();
+
+            foreach ($exam->questions as $question) {
+                $question->answers = $question->answers->shuffle();
+            }
+
             return view('user.exam', compact('exam'));
         }
     }
@@ -28,6 +36,18 @@ class UserExamController extends Controller
 
         return view('user.result', compact('userExam'));
     }
+
+    public function resultHistory()
+    {
+        $userExams = UserExam::where('user_id', Auth::id())->get();
+
+        if (!$userExams) {
+            return redirect()->route('user.home')->with('error', 'Invalid user exam.');
+        }
+
+        return view('user.history', compact('userExams'));
+    }
+
 
     public function submitExam($id, Request $request)
     {
@@ -60,23 +80,29 @@ class UserExamController extends Controller
                 continue;
             }
 
-            $correctAnswerFound = false;
+            $correctAnswers = $question->answers->where('true', 1)->pluck('id')->toArray();
+            $selectedAnswers = isset($answers[$question->id]) ? (is_array($answers[$question->id]) ? $answers[$question->id] : [$answers[$question->id]]) : null;
 
-            foreach ($question->answers as $answer) {
-                if ($answer->true === 1) {
-                    // Nếu tìm thấy đáp án đúng, kiểm tra xem người dùng đã trả lời đúng không
-                    if (isset($answers[$question->id]) && $answers[$question->id] == $answer->id) {
-                        $correctAnswerFound = true;
-                        break; // Nếu trả lời đúng, thoát khỏi vòng lặp
-                    }
+
+            if (is_array($selectedAnswers)) {
+
+                // Chuyển đổi các giá trị trong mảng $selectedAnswers thành số nguyên
+                $selectedAnswers = array_map('intval', $selectedAnswers);
+
+                // Kiểm tra xem tất cả các đáp án đúng đã được chọn
+                // Kiểm tra xem có đáp án sai nào trong danh sách các đáp án đã chọn hay không
+                $incorrectAnswerFound = !empty(array_diff($selectedAnswers, $correctAnswers));
+
+                if (!$incorrectAnswerFound) {
+                    $score += 1;
+                } elseif (empty($selectedAnswers)) {
+                    $score += 0;
                 }
-            }
-
-            if ($correctAnswerFound) {
-                $score += 1;
+            } else {
+                $score += 0;
             }
         }
-
+        // dd($correctAnswers, $selectedAnswers);
         return $score;
     }
 }

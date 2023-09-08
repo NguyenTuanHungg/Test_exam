@@ -13,7 +13,7 @@
                     <a href="{{ route('exam', $exam->id) }}">{{ $exam->name }}</a>
                 </div>
                 <div class="col-md-4 text-right">
-                    <span class="badge badge-primary">{{ $exam->time }} phút</span>
+                    <span class="badge badge-primary">{{ $exam->time }} </span>
                 </div>
             </div>
         </li>

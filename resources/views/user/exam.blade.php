@@ -15,20 +15,27 @@
                 <h3>Câu hỏi {{ $loop->iteration }}</h3>
                 <p>{{ $question->name }}</p>
 
+                @if($question->answers->where('true', 1)->count() == 1)
+                <!-- Sử dụng radio nếu chỉ có 1 đáp án đúng -->
+                @foreach($question->answers as $answer)
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="answers[{{ $question->id }}]" id="answerA{{ $question->id }}" value="{{ $question->answers[0]->id }}">
-                    <label class="form-check-label" for="answerA{{ $question->id }}">
-                        A. {{ $question->answers[0]->content }}
+                    <input class="form-check-input" type="radio" name="answers[{{ $question->id }}]" id="answer{{ $answer->id }}" value="{{ $answer->id }}">
+                    <label class="form-check-label" for="answer{{ $answer->id }}">
+                        {{ chr($loop->index + 65) }}. {{ $answer->content }}
                     </label>
                 </div>
-
+                @endforeach
+                @else
+                <!-- Sử dụng checkbox nếu có nhiều đáp án đúng -->
+                @foreach($question->answers as $answer)
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="answers[{{ $question->id }}]" id="answerB{{ $question->id }}" value="{{ $question->answers[1]->id }}">
-                    <label class="form-check-label" for="answerB{{ $question->id }}">
-                        B. {{ $question->answers[1]->content }}
+                    <input class="form-check-input" type="checkbox" name="answers[{{ $question->id }}][]" id="answer{{ $answer->id }}" value="{{ $answer->id }}">
+                    <label class="form-check-label" for="answer{{ $answer->id }}">
+                        {{ chr($loop->index + 65) }}. {{ $answer->content }}
                     </label>
                 </div>
-
+                @endforeach
+                @endif
 
             </div>
         </div>
