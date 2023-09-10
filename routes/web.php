@@ -24,6 +24,9 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('admin', [TopicController::class, 'index'])->name('admin');
     Route::get('add', [TopicController::class, 'add'])->name('add');
     Route::post('add_topic', [TopicController::class, 'store'])->name('add_topic');
+    Route::get('update/{id}', [TopicController::class, 'update'])->name('edit');
+    Route::put('update/{id}', [TopicController::class, 'updateTopic'])->name('update');
+    Route::delete('delete_topic/{id}', [TopicController::class, 'deleteTopic'])->name('delete_topic');
 });
 
 Route::group(['middleware' => 'guest'], function () {

@@ -9,7 +9,6 @@
                 <th scope="col">#</th>
                 <th scope="col">Tên bài kiểm tra</th>
                 <th scope="col">Điểm số</th>
-                <th scope="col">Thời gian làm</th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +17,6 @@
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{ $userExam->topic->name }}</td>
                 <td>{{ $userExam->score }}</td>
-                <td>{{ $userExam->created_at }}</td>
             </tr>
             @endforeach
         </tbody>
