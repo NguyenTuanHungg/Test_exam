@@ -1,5 +1,5 @@
 @if (Route::has('login'))
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         @auth
         <a href="{{ url('/home') }}" class="navbar-brand">Home</a>

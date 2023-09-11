@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Bài kiểm tra: {{ $exam->name }}</h1>
+    <h1 style="margin-top:70px;">Bài kiểm tra: {{ $exam->name }}</h1>
     <div id="countdown">
         Thời gian còn lại: <span id="timer"></span>
     </div>

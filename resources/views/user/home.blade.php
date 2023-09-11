@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Xin chào, {{ auth()->user()->name }}</h1>
+    <h1 style="margin-top:70px;">Xin chào, {{ auth()->user()->name }}</h1>
     <h2>Danh sách bài kiểm tra</h2>
 
     <ul class="list-group">

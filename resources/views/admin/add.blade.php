@@ -105,7 +105,7 @@
                 </div>
             </div>
             <!-- Add Answer button for the new question -->
-            <button type="button" class="btn btn-success add-answer">Add Answer</button>
+            <button type="button" class="btn btn-success add-answer style="margin-bottom:10px;">Add Answer</button>
         `;
             questionsContainer.appendChild(newQuestionGroup);
             questionCount++;

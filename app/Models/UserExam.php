@@ -10,7 +10,7 @@ class UserExam extends Model
     use HasFactory;
     protected $table = 'user_exams';
     protected $fillable = [
-        'user_id', 'topic_id', 'score'
+        'user_id', 'topic_id', 'score', 'created_at'
     ];
 
     public function topic()

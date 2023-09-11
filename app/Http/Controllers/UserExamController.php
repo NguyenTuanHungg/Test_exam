@@ -26,6 +26,7 @@ class UserExamController extends Controller
         }
     }
 
+
     public function showResult($id)
     {
         $userExam = UserExam::find($id);
@@ -59,11 +60,9 @@ class UserExamController extends Controller
                 'topic_id' => $topic->id,
             ]);
             $score = $this->calculateScore($userExam, $request->input('answers'));
-
             $userExam->score = $score;
 
             $userExam->save();
-
 
             return redirect()->route('result', ['id' => $userExam->id]);
         }
