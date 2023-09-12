@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SelectedAnswer;
 use App\Models\Topic;
 use App\Models\UserExam;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class UserExamController extends Controller
             return view('user.exam', compact('exam'));
         }
     }
+
 
 
     public function showResult($id)
@@ -63,6 +65,28 @@ class UserExamController extends Controller
             $userExam->score = $score;
 
             $userExam->save();
+
+            foreach ($userExam->topic->questions as $question) {
+
+                $selectedAnswers = $request->input('answers.' . $question->id);
+                if (is_array($selectedAnswers)) {
+                    foreach ($selectedAnswers as $selectedAnswer) {
+                        SelectedAnswer::create([
+                            'question_id' => $question->id,
+                            'answer_id' => $selectedAnswer,
+                            'user_id' => Auth::id(),
+                            'user_exam_id' => $userExam->id,
+                        ]);
+                    }
+                } elseif (is_numeric($selectedAnswers)) {
+                    SelectedAnswer::create([
+                        'question_id' => $question->id,
+                        'answer_id' => $selectedAnswers,
+                        'user_id' => Auth::id(),
+                        'user_exam_id' => $userExam->id,
+                    ]);
+                }
+            }
 
             return redirect()->route('result', ['id' => $userExam->id]);
         }
@@ -103,5 +127,22 @@ class UserExamController extends Controller
         }
         // dd($correctAnswers, $selectedAnswers);
         return $score;
+    }
+
+
+
+
+    public function userExamAnswers($id)
+    {
+        // Lấy thông tin bài thi của người dùng
+        $userExam = UserExam::find($id);
+
+        if (!$userExam || $userExam->user_id !== auth()->id()) {
+            return redirect()->route('user.home')->with('error', 'Invalid user exam.');
+        }
+
+        // Lấy các câu hỏi và đáp án đã chọn của người dùng
+        $selectedAnswers = $userExam->selectedAnswers->pluck('answer_id')->toArray();
+        return view('user.history-exam', compact('selectedAnswers', 'userExam'));
     }
 }

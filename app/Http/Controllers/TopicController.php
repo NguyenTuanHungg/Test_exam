@@ -56,7 +56,7 @@ class TopicController extends Controller
             }
         }
 
-        return redirect()->route('admin');
+        return redirect()->route('admin')->with('success', 'Thêm thành công');
     }
 
     public function updateTopic(Request $request, $id)

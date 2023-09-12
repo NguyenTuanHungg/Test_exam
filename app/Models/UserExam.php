@@ -17,4 +17,8 @@ class UserExam extends Model
     {
         return $this->belongsTo(Topic::class, 'topic_id', 'id');
     }
+    public function selectedAnswers()
+    {
+        return $this->hasMany(SelectedAnswer::class, 'user_exam_id', 'id');
+    }
 }

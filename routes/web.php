@@ -45,3 +45,4 @@ Route::get('exam/{id}', [UserExamController::class, 'startExam'])->name('exam');
 Route::post('submit/{id}', [UserExamController::class, 'submitExam'])->name('submit');
 Route::get('result/{id}', [UserExamController::class, 'showResult'])->name('result');
 Route::get('history', [UserExamController::class, 'resultHistory'])->name('history');
+Route::get('user_exam_answers/{id}', [UserExamController::class, 'userExamAnswers'])->name('user_exam_answers');
