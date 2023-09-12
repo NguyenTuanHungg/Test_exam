@@ -42,7 +42,7 @@ class UserExamController extends Controller
 
     public function resultHistory()
     {
-        $userExams = UserExam::where('user_id', Auth::id())->get();
+        $userExams = UserExam::where('user_id', Auth::id())->paginate(6);
 
         if (!$userExams) {
             return redirect()->route('user.home')->with('error', 'Invalid user exam.');

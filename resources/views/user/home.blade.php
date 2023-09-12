@@ -18,6 +18,8 @@
             </div>
         </li>
         @endforeach
+        {{ $exams->links('pagination::bootstrap-4') }}
+
     </ul>
 </div>
 @endsection

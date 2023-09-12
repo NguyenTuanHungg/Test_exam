@@ -23,5 +23,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $userExams->links('pagination::bootstrap-4') }}
+
 </div>
 @endsection
