@@ -16,7 +16,7 @@ class TopicController extends Controller
     {
         $topics = Topic::paginate(6);
 
-        return view('admin.dashboard', compact('topics',));
+        return view('admin.dashboard', compact('topics', ));
     }
 
 
@@ -35,7 +35,8 @@ class TopicController extends Controller
     }
     public function addCategory()
     {
-        return view('admin.addCate');
+        $categories = Category::paginate(2);
+        return view('admin.addCate', compact('categories'));
     }
     public function insertCategory(Request $request)
     {
@@ -43,7 +44,14 @@ class TopicController extends Controller
             'name' => $request->name
         ]);
 
-        return redirect()->route('admin')->with('success', 'add topic successfully');
+        return redirect()->route('add_Cate')->with('success', 'add topic successfully');
+    }
+
+    public function deleteCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return redirect()->route('add_Cate')->with('success', 'delete topic successfully');
     }
     public function store(Request $request)
     {

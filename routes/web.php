@@ -29,6 +29,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::delete('delete_topic/{id}', [TopicController::class, 'deleteTopic'])->name('delete_topic');
     Route::post('insert_cate', [TopicController::class, 'insertCategory'])->name('insert_cate');
     Route::get('add_cate', [TopicController::class, 'addCategory'])->name('add_Cate');
+    Route::delete('deleteCate/{id}', [TopicController::class, 'deleteCategory'])->name('deleteCate');
 });
 
 Route::group(['middleware' => 'guest'], function () {
