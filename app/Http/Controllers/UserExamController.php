@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\SelectedAnswer;
 use App\Models\Topic;
 use App\Models\UserExam;
@@ -22,8 +23,9 @@ class UserExamController extends Controller
             foreach ($exam->questions as $question) {
                 $question->answers = $question->answers->shuffle();
             }
+            $categories = Category::all();
 
-            return view('user.exam', compact('exam'));
+            return view('user.exam', compact('exam', 'categories'));
         }
     }
 
@@ -36,8 +38,10 @@ class UserExamController extends Controller
         if (!$userExam || $userExam->user_id !== auth()->id()) {
             return redirect()->route('user.home')->with('error', 'Invalid user exam.');
         }
+        $categories = Category::all();
 
-        return view('user.result', compact('userExam'));
+
+        return view('user.result', compact('userExam', 'categories'));
     }
 
     public function resultHistory()
@@ -47,8 +51,10 @@ class UserExamController extends Controller
         if (!$userExams) {
             return redirect()->route('user.home')->with('error', 'Invalid user exam.');
         }
+        $categories = Category::all();
 
-        return view('user.history', compact('userExams'));
+
+        return view('user.history', compact('userExams', 'categories'));
     }
 
 
@@ -106,32 +112,35 @@ class UserExamController extends Controller
             $correctAnswers = $question->answers->where('true', 1)->pluck('id')->toArray();
             $selectedAnswers = isset($answers[$question->id]) ? (is_array($answers[$question->id]) ? $answers[$question->id] : [$answers[$question->id]]) : null;
 
-
             if (is_array($selectedAnswers)) {
-
-                // Chuyển đổi các giá trị trong mảng $selectedAnswers thành số nguyên
                 $selectedAnswers = array_map('intval', $selectedAnswers);
 
-                // Kiểm tra xem tất cả các đáp án đúng đã được chọn
+                $level = $question->level;
+
+                // Kiểm tra xem tất cả các đáp án đúng đã được chọn hay chưa
+                $allCorrectAnswersSelected = empty(array_diff($correctAnswers, $selectedAnswers));
+
                 // Kiểm tra xem có đáp án sai nào trong danh sách các đáp án đã chọn hay không
                 $incorrectAnswerFound = !empty(array_diff($selectedAnswers, $correctAnswers));
 
-                if (!$incorrectAnswerFound) {
-                    $score += 1;
-                } elseif (empty($selectedAnswers)) {
-                    $score += 0;
+                if ($allCorrectAnswersSelected && !$incorrectAnswerFound) {
+                    switch ($level) {
+                        case 'easy':
+                            $score += 1;
+                            break;
+                        case 'medium':
+                            $score += 2;
+                            break;
+                        case 'hard':
+                            $score += 3;
+                            break;
+                    }
                 }
-            } else {
-                $score += 0;
             }
         }
-        // dd($correctAnswers, $selectedAnswers);
+
         return $score;
     }
-
-
-
-
     public function userExamAnswers($id)
     {
         // Lấy thông tin bài thi của người dùng
@@ -140,9 +149,11 @@ class UserExamController extends Controller
         if (!$userExam || $userExam->user_id !== auth()->id()) {
             return redirect()->route('user.home')->with('error', 'Invalid user exam.');
         }
+        $categories = Category::all();
+
 
         // Lấy các câu hỏi và đáp án đã chọn của người dùng
         $selectedAnswers = $userExam->selectedAnswers->pluck('answer_id')->toArray();
-        return view('user.history-exam', compact('selectedAnswers', 'userExam'));
+        return view('user.history-exam', compact('selectedAnswers', 'userExam', 'categories'));
     }
 }

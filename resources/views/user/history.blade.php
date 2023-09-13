@@ -16,7 +16,7 @@
             @foreach ($userExams as $userExam)
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
-                <td><a href="{{route('user_exam_answers',['id' => $userExam -> id])}}">{{ $userExam->topic->name }}</a></td>
+                <td><a href="{{ route('user_exam_answers', ['id' => $userExam->id]) }}" class=" font-weight-bold text-decoration-none">{{ $userExam->topic->name }}</a></td>
                 <td>{{ $userExam->score }}</td>
                 <td>{{$userExam->created_at}}</td>
             </tr>

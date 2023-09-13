@@ -13,11 +13,17 @@ class Topic extends Model
     protected $fillable = [
         'name',
         'time',
-        'score'
+        'score',
+        'category_id'
     ];
 
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(TopicName::class, 'category_id', 'id');
     }
 }

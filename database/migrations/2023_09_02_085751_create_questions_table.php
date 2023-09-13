@@ -16,6 +16,7 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->enum('level', ['easy', 'medium', 'hard']);
             $table->foreignId('topic_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

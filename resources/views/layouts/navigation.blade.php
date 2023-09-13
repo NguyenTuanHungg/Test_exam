@@ -14,6 +14,16 @@
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link">Log out</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @foreach($categories as $category)
+                        <a class="dropdown-item" href="{{ route('get-topics', ['id' => $category->id]) }}">{{ $category->name }}</a>
+                        @endforeach
+                    </div>
+                </li>
             </ul>
         </div>
         @else
@@ -25,3 +35,6 @@
     </div>
 </nav>
 @endif
+<script>
+
+</script>

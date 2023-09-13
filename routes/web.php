@@ -27,6 +27,8 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('update/{id}', [TopicController::class, 'update'])->name('edit');
     Route::put('update/{id}', [TopicController::class, 'updateTopic'])->name('update');
     Route::delete('delete_topic/{id}', [TopicController::class, 'deleteTopic'])->name('delete_topic');
+    Route::post('insert_cate', [TopicController::class, 'insertCategory'])->name('insert_cate');
+    Route::get('add_cate', [TopicController::class, 'addCategory'])->name('add_Cate');
 });
 
 Route::group(['middleware' => 'guest'], function () {
@@ -46,3 +48,6 @@ Route::post('submit/{id}', [UserExamController::class, 'submitExam'])->name('sub
 Route::get('result/{id}', [UserExamController::class, 'showResult'])->name('result');
 Route::get('history', [UserExamController::class, 'resultHistory'])->name('history');
 Route::get('user_exam_answers/{id}', [UserExamController::class, 'userExamAnswers'])->name('user_exam_answers');
+Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('google');
+Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
+Route::get('/get-topics/{id}', [TopicController::class, 'getTopicsByCategory'])->name('get-topics');

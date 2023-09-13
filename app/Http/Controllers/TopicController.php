@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -14,13 +15,16 @@ class TopicController extends Controller
     public function index()
     {
         $topics = Topic::paginate(6);
-        return view('admin.dashboard', compact('topics'));
+
+        return view('admin.dashboard', compact('topics',));
     }
 
 
     public function add()
     {
-        return view('admin.add');
+        $categories = Category::all();
+
+        return view('admin.add', compact('categories'));
     }
 
     public function update($id)
@@ -29,13 +33,25 @@ class TopicController extends Controller
 
         return view('admin.update', compact('topic'));
     }
+    public function addCategory()
+    {
+        return view('admin.addCate');
+    }
+    public function insertCategory(Request $request)
+    {
+        Category::create([
+            'name' => $request->name
+        ]);
 
+        return redirect()->route('admin')->with('success', 'add topic successfully');
+    }
     public function store(Request $request)
     {
         // Tạo đề thi
         $topic = Topic::create([
             'name' => $request->name,
-            'time' => $request->time
+            'time' => $request->time,
+            'category_id' => $request->category_id
         ]);
 
         // Tạo câu hỏi và đáp án cho đề thi
@@ -43,6 +59,7 @@ class TopicController extends Controller
             $question = Question::create([
                 'topic_id' => $topic->id,
                 'name' => $questionData['name'],
+                'level' => $questionData['level']
             ]);
 
             foreach ($questionData['answers'] as $answerData) {
@@ -104,5 +121,12 @@ class TopicController extends Controller
         }
         $topic->delete();
         return redirect()->route('admin')->with('success', 'topic deleted successfully');
+    }
+    public function getTopicsByCategory($category_id)
+    {
+        $categories = Category::all();
+        $exams = Topic::where('category_id', $category_id)->paginate(6);
+
+        return view('user.categoryTopic', compact('exams', 'categories'));
     }
 }

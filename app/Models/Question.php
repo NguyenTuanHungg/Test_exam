@@ -12,7 +12,8 @@ class Question extends Model
     protected $table = 'questions';
     protected $fillable = [
         'name',
-        'topic_id'
+        'topic_id',
+        'level'
     ];
 
     public function answers()

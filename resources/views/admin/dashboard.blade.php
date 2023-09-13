@@ -3,7 +3,11 @@
 @section('content')
 <div class="container">
     <h1 class="my-4">Danh sách đề thi</h1>
-    <a href="{{ route('add') }}" class="btn btn-primary mb-4">Thêm đề thi</a>
+
+    <div class="col-md-6 text-right">
+        <a href="{{ route('add_Cate') }}" class="btn btn-success mb-4">Thêm chủ đề</a>
+        <a href="{{ route('add') }}" class="btn btn-primary mb-4">Thêm đề thi</a>
+    </div>
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}

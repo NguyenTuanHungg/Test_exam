@@ -58,8 +58,10 @@
                                 </button>
 
                                 {{-- <a class="btn btn-link" href="{{route('requestPassword')}}"> --}}
-                                    {{ __('Quên mật khẩu?') }}
+                                {{ __('Quên mật khẩu?') }}
                                 </a>
+                                <a href="{{ route('google') }}" class="btn btn-google">Đăng nhập bằng Google</a>
+
                             </div>
                         </div>
                     </form>
