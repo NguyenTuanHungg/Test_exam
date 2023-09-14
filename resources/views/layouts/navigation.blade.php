@@ -11,12 +11,9 @@
                 <li class="nav-item">
                     <a href="{{ route('history') }}" class="nav-link">History</a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link">Log out</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categories
+                        Topic
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @foreach($categories as $category)
@@ -24,6 +21,10 @@
                         @endforeach
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link">Log out</a>
+                </li>
+              
             </ul>
         </div>
         @else

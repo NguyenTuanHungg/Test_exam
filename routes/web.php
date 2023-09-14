@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('admin', [TopicController::class, 'index'])->name('admin');
     Route::get('add', [TopicController::class, 'add'])->name('add');

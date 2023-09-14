@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <!-- Add Answer button -->
-                    <button type="button" class="btn btn-success add-answer style=" margin-bottom:10px;">Add Answer</button>
+                    <button type="button" class="btn btn-success add-answer" style=" margin-bottom:10px;">Add Answer</button>
                 </div>
             </div>
 
