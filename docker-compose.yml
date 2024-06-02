@@ -16,14 +16,14 @@ services:
     volumes:
       - ./:/var/www
       - ./storage:/var/www/storage
-  
+
   db:
     image: mysql:5.7
     container_name: db
     restart: unless-stopped
     tty: true
     ports:
-      - '3307:3307'
+      - '3306:3306'
     environment:
       MYSQL_DATABASE: test_exam
       MYSQL_ROOT_PASSWORD: 123456
